@@ -1,17 +1,7 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
-
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+import { Web3Provider } from "@/contexts/web3-context"
+import { ToastProvider, ToastViewport } from "@/components/ui/toast"
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,16 +10,19 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className="antialiased">
+        <Web3Provider>
+          <ToastProvider>
+            {children}
+            <ToastViewport />
+          </ToastProvider>
+        </Web3Provider>
       </body>
     </html>
-  );
+  )
 }
+
+
